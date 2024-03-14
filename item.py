@@ -22,4 +22,15 @@ class ListaEnlazada_Items:
                 actual = actual.siguiente
             nuevo_nodo.siguiente = actual.siguiente
             actual.siguiente = nuevo_nodo
+    
+    def get(self, fila, columna):
+        if not self.esta_vacia():
+            item_actual = self.primero
+            while item_actual is not None:
+                if item_actual.filas == fila and item_actual.columnas == columna:
+                    return item_actual
+                item_actual=item_actual.siguiente
+            return None
+        else:
+            return None
             

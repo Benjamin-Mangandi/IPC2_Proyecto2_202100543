@@ -4,12 +4,13 @@ console = Console()
 colorama_init(autoreset=True)
 
 class Maqueta:
-    def __init__(self, nombre, filas, columnas, items, ListaLaberintos):
+    def __init__(self, nombre, filas, columnas, items, ListaLaberintos, entrada):
         self.nombre = nombre
         self.filas = filas
         self.columnas = columnas
         self.items = items
         self.laberintos = ListaLaberintos
+        self.entrada = entrada
         self.estructura = None
         self.siguiente = None
 
@@ -20,8 +21,8 @@ class ListaEnlazada_Maquetas:
     def esta_vacia(self):
         return self.primero is None
     
-    def add(self, nombre, filas, columnas, items, ListaLaberintos):
-        nuevo_nodo = Maqueta(nombre,filas, columnas, items, ListaLaberintos)
+    def add(self, nombre, filas, columnas, items, ListaLaberintos, entrada):
+        nuevo_nodo = Maqueta(nombre,filas, columnas, items, ListaLaberintos, entrada)
         if self.esta_vacia() or nombre.lower()< self.primero.nombre.lower():
             nuevo_nodo.siguiente = self.primero
             self.primero = nuevo_nodo

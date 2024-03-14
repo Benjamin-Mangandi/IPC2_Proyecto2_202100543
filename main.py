@@ -7,6 +7,7 @@ from maqueta import ListaEnlazada_Maquetas
 from item import ListaEnlazada_Items
 from laberinto import ListaEnlazada_Laberintos
 from graphics import crear_maqueta
+from entrada import Entrada
 import time
 
 colorama_init(autoreset=True)
@@ -19,6 +20,7 @@ def save_data(raiz):
     global Pisos_cargados
     maquetas = raiz.find("maquetas")
     for maqueta in maquetas.findall('maqueta'):
+        items = ListaEnlazada_Items()
         nombre_maqueta = maqueta.find('nombre').text.strip()
         filas = maqueta.find('filas').text.strip()
         columnas = maqueta.find('columnas').text.strip()
@@ -30,14 +32,14 @@ def save_data(raiz):
         for entrada in maqueta.findall('entrada'):
             filas_entrada = entrada.find('fila').text.strip()
             columnas_entrada = entrada.find('columna').text.strip()
+        nueva_entrada = Entrada(filas_entrada, columnas_entrada)
         objetivos = maqueta.find("objetivos")
         for objetivo in objetivos:
-            items = ListaEnlazada_Items()
             nombre_objetivo = objetivo.find('nombre').text.strip()
             fila_objetivo = objetivo.find('fila').text.strip()
             columna_objetivo = objetivo.find('columna').text.strip()
             items.add(nombre_objetivo, fila_objetivo, columna_objetivo)
-        Maquetas_cargadas.add(nombre_maqueta, filas, columnas, items, nuevo_laberinto)
+        Maquetas_cargadas.add(nombre_maqueta, filas, columnas, items, nuevo_laberinto, nueva_entrada)
     print(Fore.BLUE+Style.BRIGHT+"\nARCHIVO DE MAQUETAS CARGADO CORRECTAMENTE")
 
 def submenu():
@@ -55,6 +57,8 @@ def submenu():
                 maqueta_deseada = Maquetas_cargadas.disponibilidad(nombre_maqueta_deseada)
                 if maqueta_deseada is not None:
                     crear_maqueta(maqueta_deseada)
+                else:
+                    console.print("\nLA MAQUETA NO EXISTE EN EL SISTEMA.Intentelo de Nuevo.", style="italic #ff1a1a")
             else:
                 console.print("\nTODAVIA NO HAY MAQUETAS CARGADAS EN EL SISTEMA", style="italic #ff1a1a")
         if respuesta_usuario == str(3):
