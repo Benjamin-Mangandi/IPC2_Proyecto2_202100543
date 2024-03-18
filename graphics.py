@@ -14,25 +14,25 @@ def crear_maqueta(maqueta_deseada):
     for i in range(int(maqueta_deseada.filas)):
         for j in range(int(maqueta_deseada.columnas)):
             estructura_bloque = maqueta_deseada.laberintos.get(indice)
-            item = maqueta_deseada.items.get(str(i+1),str(j+1))
+            item = maqueta_deseada.items.get(str(i),str(j))
             indice+=1
             if str(estructura_bloque) == "*":
                 color = 'black'
             elif str(estructura_bloque) == "-":
                 color = 'white'
-            if maqueta_deseada.entrada.filas == str(i+1) \
-            and maqueta_deseada.entrada.columnas == str(j+1):
+            if maqueta_deseada.entrada.fila == str(i) \
+            and maqueta_deseada.entrada.columna == str(j):
                 color = 'green'
             if item is not None:
-                maqueta.node(f'{i+1}{j+1}', label=item.nombre ,style='filled', fillcolor=color)
+                maqueta.node(f'{i}{j}', label=item.nombre ,style='filled', fillcolor=color)
             else:
-                maqueta.node(f'{i+1}{j+1}', label='',style='filled', fillcolor=color)
+                maqueta.node(f'{i}{j}', label='',style='filled', fillcolor=color)
     
     espaciado = 0.38
     for i in range(int(maqueta_deseada.filas)):
         for j in range(int(maqueta_deseada.columnas)):
             pos_x = j * espaciado
             pos_y = -i * espaciado
-            maqueta.node(f'{i+1}{j+1}',pos=f'{pos_x},{pos_y}!')
+            maqueta.node(f'{i}{j}',pos=f'{pos_x},{pos_y}!')
     
     maqueta.view()

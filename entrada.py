@@ -1,4 +1,4 @@
 class Entrada:
-    def __init__(self, filas, columnas):
-        self.filas = filas
-        self.columnas = columnas
+    def __init__(self, fila, columna):
+        self.fila = fila
+        self.columna = columna

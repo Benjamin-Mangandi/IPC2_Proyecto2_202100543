@@ -15,7 +15,7 @@ console = Console()
 Maquetas_cargadas = ListaEnlazada_Maquetas()
 
 def save_data(raiz):
-    for _ in track(range(2), description=Fore.BLUE+Style.BRIGHT+"Procesando archivo..."):
+    for _ in track(range(1), description=Fore.BLUE+Style.BRIGHT+"Procesando archivo..."):
         time.sleep(1)
     global Pisos_cargados
     maquetas = raiz.find("maquetas")
@@ -26,9 +26,19 @@ def save_data(raiz):
         columnas = maqueta.find('columnas').text.strip()
         estructuras = maqueta.find('estructura').text.strip()
         nuevo_laberinto = ListaEnlazada_Laberintos()
+        fila = 0
+        columna = 0
         for estructura in estructuras:
             nueva_estructura = estructura
-            nuevo_laberinto.add(nueva_estructura)
+            if estructura == "*":
+                nuevo_laberinto.add(nueva_estructura, True, fila, columna)
+                columna+=1
+            if estructura == "-":
+                nuevo_laberinto.add(nueva_estructura, False, fila, columna)
+                columna+=1
+            if int(columna) == int(columnas):
+                columna = 0
+                fila+=1
         for entrada in maqueta.findall('entrada'):
             filas_entrada = entrada.find('fila').text.strip()
             columnas_entrada = entrada.find('columna').text.strip()
@@ -65,6 +75,7 @@ def submenu():
             return
 
 def menu():
+    global Maquetas_cargadas
     console.print("\n"+"-"*20+"Bienvenido"+"-"*20, style="italic #00ffff bold")
     console.print("\nPor favor seleccione una opción", style="italic #00ffff bold")
     respuesta_usuario = 0
@@ -94,7 +105,12 @@ def menu():
             submenu()
         if respuesta_usuario == str(4):
             if Maquetas_cargadas.esta_vacia() is False:
-                pass
+                nombre_maqueta_deseada = input(Fore.LIGHTCYAN_EX+Style.BRIGHT+"\nIngrese el nombre de la maqueta deseada: ")
+                maqueta_deseada = Maquetas_cargadas.disponibilidad(nombre_maqueta_deseada)
+                if maqueta_deseada is not None:
+                    maqueta_deseada.laberintos.movement(maqueta_deseada.laberintos,maqueta_deseada.entrada, maqueta_deseada.items)
+                else:
+                    console.print("\nLA MAQUETA NO EXISTE EN EL SISTEMA.Intentelo de Nuevo.", style="italic #ff1a1a")
             else:
                 console.print("\nTODAVIA NO HAY MAQUETAS CARGADAS EN EL SISTEMA", style="italic #ff1a1a")
         if respuesta_usuario == str(5):
