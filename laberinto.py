@@ -7,6 +7,91 @@ class Bloque:
         self.visitado = False
         self.siguiente = None
 
+bloque_abajo = None
+bloque_arriba = None
+bloque_derecha = None
+bloque_izquierda = None
+aux_laberinto = None
+contador = 100
+aux2_laberinto = None
+posicion_actual = None
+def mov_down():
+    global posicion_actual
+    global aux2_laberinto
+    global contador
+    global bloque_abajo
+    global bloque_arriba
+    global bloque_derecha
+    global bloque_izquierda
+    global aux_laberinto
+    aux_laberinto.visitar(posicion_actual.fila, posicion_actual.columna)
+    posicion_actual = aux_laberinto.get_coordenadas(bloque_abajo.fila, bloque_abajo.columna)
+    print("Para abajo")
+    aux2_laberinto.modificar(posicion_actual.fila, posicion_actual.columna)
+    bloque_abajo = aux_laberinto.get_coordenadas(int(posicion_actual.fila)+1, posicion_actual.columna)
+    bloque_arriba = aux_laberinto.get_coordenadas(int(posicion_actual.fila)-1, posicion_actual.columna)
+    bloque_derecha = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)+1)
+    bloque_izquierda = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)-1)
+    contador+=1
+
+def mov_up():
+    global posicion_actual
+    global aux2_laberinto
+    global contador
+    global bloque_abajo
+    global bloque_arriba
+    global bloque_derecha
+    global bloque_izquierda
+    global aux_laberinto
+    aux_laberinto.visitar(posicion_actual.fila, posicion_actual.columna)
+    posicion_actual = aux_laberinto.get_coordenadas(bloque_arriba.fila, bloque_arriba.columna)
+    print("Para arriba")
+    aux2_laberinto.modificar(posicion_actual.fila, posicion_actual.columna)
+    bloque_abajo = aux_laberinto.get_coordenadas(int(posicion_actual.fila)+1, posicion_actual.columna)
+    bloque_arriba = aux_laberinto.get_coordenadas(int(posicion_actual.fila)-1, posicion_actual.columna)
+    bloque_derecha = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)+1)
+    bloque_izquierda = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)-1)
+    contador+=1
+
+def mov_right():
+    global posicion_actual
+    global aux2_laberinto
+    global contador
+    global bloque_abajo
+    global bloque_arriba
+    global bloque_derecha
+    global bloque_izquierda
+    global aux_laberinto
+    aux_laberinto.visitar(posicion_actual.fila, posicion_actual.columna)
+    posicion_actual = aux_laberinto.get_coordenadas(bloque_derecha.fila, bloque_derecha.columna)
+    print("Para derecha")
+    aux2_laberinto.modificar(posicion_actual.fila, posicion_actual.columna)
+    bloque_abajo = aux_laberinto.get_coordenadas(int(posicion_actual.fila)+1, posicion_actual.columna)
+    bloque_arriba = aux_laberinto.get_coordenadas(int(posicion_actual.fila)-1, posicion_actual.columna)
+    bloque_derecha = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)+1)
+    bloque_izquierda = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)-1)
+    contador+=1
+
+
+def mov_left():
+    global posicion_actual
+    global aux2_laberinto
+    global contador
+    global bloque_abajo
+    global bloque_arriba
+    global bloque_derecha
+    global bloque_izquierda
+    global aux_laberinto
+    aux_laberinto.visitar(posicion_actual.fila, posicion_actual.columna)
+    posicion_actual = aux_laberinto.get_coordenadas(bloque_izquierda.fila, bloque_izquierda.columna)
+    print("Para izquierda")
+    aux2_laberinto.modificar(posicion_actual.fila, posicion_actual.columna)
+    bloque_abajo = aux_laberinto.get_coordenadas(int(posicion_actual.fila)+1, posicion_actual.columna)
+    bloque_arriba = aux_laberinto.get_coordenadas(int(posicion_actual.fila)-1, posicion_actual.columna)
+    bloque_derecha = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)+1)
+    bloque_izquierda = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)-1)
+    contador+=1
+
 class ListaEnlazada_Laberintos:
     def __init__(self):
         self.primero = None
@@ -63,14 +148,36 @@ class ListaEnlazada_Laberintos:
                 bloque_actual=bloque_actual.siguiente
         else:
             return None
-    
+        
+    def visitar(self, fila, columna):
+        if not self.esta_vacia():
+            bloque_actual = self.primero
+            while bloque_actual is not None:
+                if str(bloque_actual.fila) == str(fila) and str(bloque_actual.columna) == str(columna) :
+                    bloque_actual.visitado = True
+                    return
+                bloque_actual=bloque_actual.siguiente
+        else:
+            return None
+
+
+
     def movement(self, ListaOriginal, entrada, objetivos):
         if not self.esta_vacia():
+            global bloque_abajo
+            global contador
+            global bloque_arriba
+            global bloque_derecha
+            global bloque_izquierda
+            global aux_laberinto
+            global posicion_actual
+            global aux2_laberinto
+            contador = 100
             aux_laberinto = self.copiar(ListaOriginal)
             aux2_laberinto = self.copiar(ListaOriginal)
             objetivo_actual = objetivos.primero
             posicion_actual = aux_laberinto.get_coordenadas(entrada.fila, entrada.columna)
-            while objetivo_actual is not None:
+            while contador >0 :
                 bloque_abajo = aux_laberinto.get_coordenadas(int(posicion_actual.fila)+1, int(posicion_actual.columna))
                 bloque_arriba = aux_laberinto.get_coordenadas(int(posicion_actual.fila)-1, int(posicion_actual.columna))
                 bloque_derecha = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)+1)
@@ -78,46 +185,44 @@ class ListaEnlazada_Laberintos:
                 if int(objetivo_actual.fila) == int(posicion_actual.fila) and int(objetivo_actual.columna) == int(posicion_actual.columna):
                     objetivo_actual = objetivo_actual.siguiente
                     if objetivo_actual is None:
-                        return
-                if int(objetivo_actual.fila) > int(posicion_actual.fila):
-                    if bloque_abajo is not None and bloque_abajo.esPared is False:
-                        posicion_actual = aux_laberinto.get_coordenadas(bloque_abajo.fila, bloque_abajo.columna)
-                        print("Para abajo")
-                        aux2_laberinto.modificar(posicion_actual.fila, posicion_actual.columna)
-                        bloque_abajo = aux_laberinto.get_coordenadas(int(posicion_actual.fila)+1, posicion_actual.columna)
-                        bloque_arriba = aux_laberinto.get_coordenadas(int(posicion_actual.fila)-1, posicion_actual.columna)
-                        bloque_derecha = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)+1)
-                        bloque_izquierda = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)-1)
-                if int(objetivo_actual.columna) > int(posicion_actual.columna):
-                    if bloque_derecha is not None and bloque_derecha.esPared is False:
-                        posicion_actual = aux_laberinto.get_coordenadas(bloque_derecha.fila, bloque_derecha.columna)
-                        print("Para derecha")
-                        aux2_laberinto.modificar(posicion_actual.fila, posicion_actual.columna)
-                        bloque_abajo = aux_laberinto.get_coordenadas(int(posicion_actual.fila)+1, posicion_actual.columna)
-                        bloque_arriba = aux_laberinto.get_coordenadas(int(posicion_actual.fila)-1, posicion_actual.columna)
-                        bloque_derecha = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)+1)
-                        bloque_izquierda = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)-1)
-                if int(objetivo_actual.fila) < int(posicion_actual.fila):
-                    if bloque_arriba is not None and bloque_arriba.esPared is False:
-                        posicion_actual = aux_laberinto.get_coordenadas(bloque_arriba.fila, bloque_arriba.columna)
-                        print("Para arriba")
-                        aux2_laberinto.modificar(posicion_actual.fila, posicion_actual.columna)
-                        bloque_abajo = aux_laberinto.get_coordenadas(int(posicion_actual.fila)+1, posicion_actual.columna)
-                        bloque_arriba = aux_laberinto.get_coordenadas(int(posicion_actual.fila)-1, posicion_actual.columna)
-                        bloque_derecha = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)+1)
-                        bloque_izquierda = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)-1)
+                        return aux2_laberinto
                 if int(objetivo_actual.columna) < int(posicion_actual.columna):
-                    if bloque_izquierda is not None and bloque_izquierda.esPared is False:
-                        posicion_actual = aux_laberinto.get_coordenadas(bloque_izquierda.fila, bloque_izquierda.columna)
-                        print("Para izquierda")
-                        aux2_laberinto.modificar(posicion_actual.fila, posicion_actual.columna)
-                        bloque_abajo = aux_laberinto.get_coordenadas(int(posicion_actual.fila)+1, posicion_actual.columna)
-                        bloque_arriba = aux_laberinto.get_coordenadas(int(posicion_actual.fila)-1, posicion_actual.columna)
-                        bloque_derecha = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)+1)
-                        bloque_izquierda = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)-1)
+                    if bloque_izquierda is not None and bloque_izquierda.esPared is False and bloque_izquierda.visitado is False:
+                        mov_left()
+                    if (bloque_arriba is not None and bloque_arriba.esPared) \
+                    and (bloque_abajo is not None and bloque_abajo.esPared)\
+                    and (bloque_izquierda is not None and bloque_izquierda.visitado)\
+                    and (bloque_derecha is not None and bloque_derecha.visitado is False):
+                        mov_right()
+                if int(objetivo_actual.columna) > int(posicion_actual.columna):
+                    if bloque_derecha is not None and bloque_derecha.esPared is False and bloque_derecha.visitado is False:
+                        mov_right()
+                    if bloque_arriba is not None and (bloque_arriba.esPared or bloque_arriba.visitado)\
+                    and bloque_abajo is not None and (bloque_abajo.esPared or bloque_abajo.visitado)\
+                    and (bloque_derecha is not None and bloque_derecha.visitado)\
+                    and (bloque_izquierda is not None and bloque_izquierda.visitado is False):
+                        mov_left()     
+                if int(objetivo_actual.fila) > int(posicion_actual.fila):
+                    if bloque_abajo is not None and bloque_abajo.esPared is False and bloque_abajo.visitado is False:
+                        mov_down() 
+                    if bloque_abajo is not None and (bloque_abajo.esPared or bloque_abajo.visitado)\
+                    and bloque_izquierda is not None and bloque_izquierda.visitado\
+                    and bloque_derecha is not None and (bloque_derecha.esPared or bloque_derecha.visitado)\
+                    and (bloque_arriba is not None and bloque_arriba.visitado is False):
+                        mov_up()
+                if int(objetivo_actual.fila) < int(posicion_actual.fila):
+                    if bloque_arriba is not None and bloque_arriba.esPared is False and bloque_arriba.visitado is False:
+                       mov_up()
+                    if bloque_arriba is not None and (bloque_arriba.esPared or bloque_arriba.visitado)\
+                    and (bloque_izquierda is not None and bloque_izquierda.visitado)\
+                    and (bloque_derecha is not None and bloque_derecha.visitado is False):
+                        mov_right()
                 if bloque_derecha is not None and bloque_arriba is not None \
                       and bloque_izquierda is not None:
                     if bloque_derecha.esPared and bloque_arriba.esPared and bloque_izquierda.esPared:
-                        return
+                        return aux2_laberinto
+                contador-=1
+                print(contador)
+            return aux2_laberinto
         else:
             return None

@@ -6,7 +6,7 @@ from rich.progress import track
 from maqueta import ListaEnlazada_Maquetas
 from item import ListaEnlazada_Items
 from laberinto import ListaEnlazada_Laberintos
-from graphics import crear_maqueta
+from graphics import crear_maqueta, crear_camino
 from entrada import Entrada
 import time
 
@@ -108,7 +108,8 @@ def menu():
                 nombre_maqueta_deseada = input(Fore.LIGHTCYAN_EX+Style.BRIGHT+"\nIngrese el nombre de la maqueta deseada: ")
                 maqueta_deseada = Maquetas_cargadas.disponibilidad(nombre_maqueta_deseada)
                 if maqueta_deseada is not None:
-                    maqueta_deseada.laberintos.movement(maqueta_deseada.laberintos,maqueta_deseada.entrada, maqueta_deseada.items)
+                    laberinto_solucion= maqueta_deseada.laberintos.movement(maqueta_deseada.laberintos,maqueta_deseada.entrada, maqueta_deseada.items)
+                    crear_camino(maqueta_deseada, laberinto_solucion)
                 else:
                     console.print("\nLA MAQUETA NO EXISTE EN EL SISTEMA.Intentelo de Nuevo.", style="italic #ff1a1a")
             else:
