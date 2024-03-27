@@ -38,11 +38,11 @@ def crear_maqueta(maqueta_deseada):
     maqueta.view()
 
 def crear_camino(maqueta_deseada, laberinto):
-    maqueta = Graph('G', filename='maqueta_'+maqueta_deseada.nombre+'.gv', engine='neato')
+    maqueta = Graph('G', filename='maqueta_'+maqueta_deseada.nombre+'_solucion'+'.gv', engine='neato')
     
     maqueta.attr(overlap='false', splines='false', bgcolor='beige')
 
-    maqueta.attr(label="Escuela de Sistemas\n"+'Maqueta: '+maqueta_deseada.nombre, fontsize='15', labelloc='t')
+    maqueta.attr(label="Escuela de Sistemas\n"+'Maqueta: '+maqueta_deseada.nombre+"\n"+"Solución:", fontsize='15', labelloc='t')
     
     maqueta.attr('node', shape='square', width='0.35', height='0.35', fixedsize='true', fontsize='10')
 

@@ -159,11 +159,96 @@ class ListaEnlazada_Laberintos:
                 bloque_actual=bloque_actual.siguiente
         else:
             return None
-
-
+        
+    def movement_continue(self, ListaOriginal, entrada, objetivos):
+        if not self.esta_vacia():
+            global bloque_abajo
+            global contador
+            global bloque_arriba
+            global bloque_derecha
+            global bloque_izquierda
+            global aux_laberinto
+            global posicion_actual
+            global aux2_laberinto
+            contador = 100
+            aux_laberinto = self.copiar(ListaOriginal)
+            aux2_laberinto = self.copiar(ListaOriginal)
+            objetivo_actual = objetivos.primero
+            posicion_actual = aux_laberinto.get_coordenadas(entrada.fila, entrada.columna)
+            while contador >0 :
+                bloque_abajo = aux_laberinto.get_coordenadas(int(posicion_actual.fila)+1, int(posicion_actual.columna))
+                bloque_arriba = aux_laberinto.get_coordenadas(int(posicion_actual.fila)-1, int(posicion_actual.columna))
+                bloque_derecha = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)+1)
+                bloque_izquierda = aux_laberinto.get_coordenadas(int(posicion_actual.fila), int(posicion_actual.columna)-1)
+                if int(objetivo_actual.fila) == int(posicion_actual.fila) and int(objetivo_actual.columna) == int(posicion_actual.columna):
+                    objetivo_actual = objetivo_actual.siguiente
+                    if objetivo_actual is None:
+                        return aux2_laberinto
+                if int(objetivo_actual.columna) < int(posicion_actual.columna):
+                    subcontador = 20
+                    while subcontador>0:
+                        if int(objetivo_actual.columna) < int(posicion_actual.columna):
+                            if bloque_izquierda is not None and bloque_izquierda.esPared is False and bloque_izquierda.visitado is False:
+                                mov_left()
+                            elif (bloque_arriba is not None and bloque_arriba.esPared) \
+                            and (bloque_abajo is not None and bloque_abajo.esPared)\
+                            and (bloque_izquierda is not None and bloque_izquierda.visitado)\
+                            and (bloque_derecha is not None and bloque_derecha.visitado is False and bloque_derecha.esPared is False):
+                                mov_right()
+                            elif (bloque_arriba is not None and bloque_arriba.esPared) \
+                            and bloque_izquierda is not None and (bloque_izquierda.visitado or bloque_izquierda.esPared)\
+                            and bloque_derecha is not None and (bloque_derecha.visitado or bloque_derecha.esPared)\
+                            and bloque_abajo is not None and bloque_abajo.esPared is False and bloque_abajo.visitado is False and contador <50:
+                                mov_down()
+                        subcontador-=1
+                if int(objetivo_actual.columna) > int(posicion_actual.columna):
+                    if bloque_derecha is not None and bloque_derecha.esPared is False and bloque_derecha.visitado is False:
+                        mov_right()
+                    elif bloque_arriba is not None and (bloque_arriba.esPared or bloque_arriba.visitado)\
+                    and bloque_abajo is not None and (bloque_abajo.esPared or bloque_abajo.visitado)\
+                    and (bloque_derecha is not None and bloque_derecha.visitado)\
+                    and (bloque_izquierda is not None and bloque_izquierda.visitado is False and bloque_izquierda.esPared is False):
+                        mov_left()     
+                if int(objetivo_actual.fila) > int(posicion_actual.fila):
+                    if bloque_abajo is not None and bloque_abajo.esPared is False and bloque_abajo.visitado is False:
+                        mov_down() 
+                    elif bloque_abajo is not None and (bloque_abajo.esPared or bloque_abajo.visitado)\
+                    and bloque_izquierda is not None and bloque_izquierda.visitado\
+                    and bloque_derecha is not None and (bloque_derecha.esPared or bloque_derecha.visitado)\
+                    and (bloque_arriba is not None and bloque_arriba.visitado is False and bloque_arriba.esPared is False):
+                        mov_up()
+                    elif bloque_abajo is not None and (bloque_abajo.esPared or bloque_abajo.visitado)\
+                    and bloque_izquierda is not None and (bloque_izquierda.visitado or bloque_izquierda.esPared)\
+                    and bloque_derecha is not None and (bloque_derecha.esPared or bloque_derecha.visitado)\
+                    and (bloque_arriba is not None and bloque_arriba.visitado is False and bloque_arriba.esPared is False):
+                        mov_up()
+                    elif bloque_abajo is not None and (bloque_abajo.esPared or bloque_abajo.visitado)\
+                    and bloque_izquierda is not None and (bloque_izquierda.visitado or bloque_izquierda.esPared)\
+                    and bloque_arriba is not None and (bloque_arriba.esPared or bloque_arriba.visitado)\
+                    and (bloque_derecha is not None and bloque_derecha.visitado is False and bloque_derecha.esPared is False) and contador<50:
+                        mov_right()
+                    elif bloque_abajo is not None and (bloque_abajo.esPared or bloque_abajo.visitado)\
+                    and bloque_derecha is not None and (bloque_derecha.visitado or bloque_derecha.esPared)\
+                    and bloque_arriba is not None and (bloque_arriba.esPared or bloque_arriba.visitado)\
+                    and (bloque_izquierda is not None and bloque_izquierda.visitado is False and bloque_izquierda.esPared is False) and contador<50:
+                        mov_left()
+                if int(objetivo_actual.fila) < int(posicion_actual.fila):
+                    if bloque_arriba is not None and bloque_arriba.esPared is False and bloque_arriba.visitado is False:
+                       mov_up()
+                    elif bloque_arriba is not None and (bloque_arriba.esPared or bloque_arriba.visitado)\
+                    and (bloque_izquierda is not None and bloque_izquierda.visitado)\
+                    and (bloque_derecha is not None and bloque_derecha.visitado is False and bloque_derecha.esPared is False):
+                        mov_right()
+                contador-=1
+            return aux2_laberinto
+        else:
+            return None
 
     def movement(self, ListaOriginal, entrada, objetivos):
         if not self.esta_vacia():
+            ListaOriginal_copia = self.copiar(ListaOriginal)
+            entrada_copia = entrada
+            objetivos_copia = objetivos.copiar(objetivos)
             global bloque_abajo
             global contador
             global bloque_arriba
@@ -189,40 +274,55 @@ class ListaEnlazada_Laberintos:
                 if int(objetivo_actual.columna) < int(posicion_actual.columna):
                     if bloque_izquierda is not None and bloque_izquierda.esPared is False and bloque_izquierda.visitado is False:
                         mov_left()
-                    if (bloque_arriba is not None and bloque_arriba.esPared) \
+                    elif (bloque_arriba is not None and bloque_arriba.esPared) \
                     and (bloque_abajo is not None and bloque_abajo.esPared)\
                     and (bloque_izquierda is not None and bloque_izquierda.visitado)\
-                    and (bloque_derecha is not None and bloque_derecha.visitado is False):
+                    and (bloque_derecha is not None and bloque_derecha.visitado is False and bloque_derecha.esPared is False):
                         mov_right()
+                    elif (bloque_arriba is not None and bloque_arriba.esPared) \
+                    and bloque_izquierda is not None and (bloque_izquierda.visitado or bloque_izquierda.esPared)\
+                    and bloque_derecha is not None and (bloque_derecha.visitado or bloque_derecha.esPared)\
+                    and bloque_abajo is not None and bloque_abajo.esPared is False and bloque_abajo.visitado is False and contador <50:
+                        mov_down()
                 if int(objetivo_actual.columna) > int(posicion_actual.columna):
                     if bloque_derecha is not None and bloque_derecha.esPared is False and bloque_derecha.visitado is False:
                         mov_right()
-                    if bloque_arriba is not None and (bloque_arriba.esPared or bloque_arriba.visitado)\
+                    elif bloque_arriba is not None and (bloque_arriba.esPared or bloque_arriba.visitado)\
                     and bloque_abajo is not None and (bloque_abajo.esPared or bloque_abajo.visitado)\
                     and (bloque_derecha is not None and bloque_derecha.visitado)\
-                    and (bloque_izquierda is not None and bloque_izquierda.visitado is False):
+                    and (bloque_izquierda is not None and bloque_izquierda.visitado is False and bloque_izquierda.esPared is False):
                         mov_left()     
                 if int(objetivo_actual.fila) > int(posicion_actual.fila):
                     if bloque_abajo is not None and bloque_abajo.esPared is False and bloque_abajo.visitado is False:
                         mov_down() 
-                    if bloque_abajo is not None and (bloque_abajo.esPared or bloque_abajo.visitado)\
+                    elif bloque_abajo is not None and (bloque_abajo.esPared or bloque_abajo.visitado)\
                     and bloque_izquierda is not None and bloque_izquierda.visitado\
                     and bloque_derecha is not None and (bloque_derecha.esPared or bloque_derecha.visitado)\
-                    and (bloque_arriba is not None and bloque_arriba.visitado is False):
+                    and (bloque_arriba is not None and bloque_arriba.visitado is False and bloque_arriba.esPared is False):
                         mov_up()
+                    elif bloque_abajo is not None and (bloque_abajo.esPared or bloque_abajo.visitado)\
+                    and bloque_izquierda is not None and (bloque_izquierda.visitado or bloque_izquierda.esPared)\
+                    and bloque_derecha is not None and (bloque_derecha.esPared or bloque_derecha.visitado)\
+                    and (bloque_arriba is not None and bloque_arriba.visitado is False and bloque_arriba.esPared is False):
+                        mov_up()
+                    elif bloque_abajo is not None and (bloque_abajo.esPared or bloque_abajo.visitado)\
+                    and bloque_izquierda is not None and (bloque_izquierda.visitado or bloque_izquierda.esPared)\
+                    and bloque_arriba is not None and (bloque_arriba.esPared or bloque_arriba.visitado)\
+                    and (bloque_derecha is not None and bloque_derecha.visitado is False and bloque_derecha.esPared is False) and contador<50:
+                        mov_right()
                 if int(objetivo_actual.fila) < int(posicion_actual.fila):
                     if bloque_arriba is not None and bloque_arriba.esPared is False and bloque_arriba.visitado is False:
                        mov_up()
-                    if bloque_arriba is not None and (bloque_arriba.esPared or bloque_arriba.visitado)\
+                    elif bloque_arriba is not None and (bloque_arriba.esPared or bloque_arriba.visitado)\
                     and (bloque_izquierda is not None and bloque_izquierda.visitado)\
-                    and (bloque_derecha is not None and bloque_derecha.visitado is False):
+                    and (bloque_derecha is not None and bloque_derecha.visitado is False and bloque_derecha.esPared is False):
                         mov_right()
-                if bloque_derecha is not None and bloque_arriba is not None \
-                      and bloque_izquierda is not None:
-                    if bloque_derecha.esPared and bloque_arriba.esPared and bloque_izquierda.esPared:
-                        return aux2_laberinto
+                #if bloque_derecha is not None and bloque_arriba is not None \
+                      #and bloque_izquierda is not None:
+                    #if bloque_derecha.esPared and bloque_arriba.esPared and bloque_izquierda.esPared:
+                        #return aux2_laberinto
                 contador-=1
-                print(contador)
-            return aux2_laberinto
+            aux3_laberinto = self.movement_continue(ListaOriginal_copia, entrada_copia, objetivos_copia)
+            return aux3_laberinto
         else:
             return None
