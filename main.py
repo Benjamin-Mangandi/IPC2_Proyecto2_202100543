@@ -1,4 +1,5 @@
 import os
+import subprocess
 import xml.etree.ElementTree as ET
 from colorama import Fore, Style, init as colorama_init
 from rich.console import Console
@@ -55,7 +56,7 @@ def save_data(raiz):
 def submenu():
     respuesta_usuario = 0
     while respuesta_usuario != str(3):
-        console.print("\n[#ffcc00 bold]1. Ver Listado de Maquetas",style="#ffcc00 bold")
+        console.print("\n[#ffcc00 bold]1. Ver Listado de Maquetas",style="#ffcc00 bold") #SUB MENU
         console.print("[#ffcc00 bold]2. Ver Graficamente una Maqueta", style="#ffcc00 bold")
         console.print("[italic #ffcc00 bold]3. Regresar al menú principal", style="italic #ffcc00 bold")
         respuesta_usuario = input(Fore.LIGHTCYAN_EX+Style.BRIGHT+"\nOpción: ")
@@ -66,6 +67,8 @@ def submenu():
                 nombre_maqueta_deseada = input(Fore.LIGHTCYAN_EX+Style.BRIGHT+"\nIngrese el nombre de la maqueta deseada: ")
                 maqueta_deseada = Maquetas_cargadas.disponibilidad(nombre_maqueta_deseada)
                 if maqueta_deseada is not None:
+                    for _ in track(range(1), description=Fore.BLUE+Style.BRIGHT+"Procesando archivo..."):
+                        time.sleep(1)
                     crear_maqueta(maqueta_deseada)
                 else:
                     console.print("\nLA MAQUETA NO EXISTE EN EL SISTEMA.Intentelo de Nuevo.", style="italic #ff1a1a")
@@ -108,6 +111,8 @@ def menu():
                 nombre_maqueta_deseada = input(Fore.LIGHTCYAN_EX+Style.BRIGHT+"\nIngrese el nombre de la maqueta deseada: ")
                 maqueta_deseada = Maquetas_cargadas.disponibilidad(nombre_maqueta_deseada)
                 if maqueta_deseada is not None:
+                    for _ in track(range(1), description=Fore.BLUE+Style.BRIGHT+"Procesando archivo..."):
+                        time.sleep(1)
                     laberinto_solucion= maqueta_deseada.laberintos.movement(maqueta_deseada.laberintos,maqueta_deseada.entrada, maqueta_deseada.items)
                     crear_camino(maqueta_deseada, laberinto_solucion)
                 else:
@@ -117,5 +122,8 @@ def menu():
         if respuesta_usuario == str(5):
             console.print("\nHAROLD BENJAMIN OXLAJ MANGANDI", style="italic #00cc00 bold")
             console.print("[italic #00e600 bold]202100543")
+            console.print("https://github.com/Benjamin-Mangandi/IPC2_Proyecto2_202100543.git")
+            nombre_del_archivo = '[IPC2]202100543_EnsayoProyecto2.pdf'
+            subprocess.run(['start', nombre_del_archivo], shell=True)
 
 menu()

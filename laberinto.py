@@ -26,7 +26,6 @@ def mov_down():
     global aux_laberinto
     aux_laberinto.visitar(posicion_actual.fila, posicion_actual.columna)
     posicion_actual = aux_laberinto.get_coordenadas(bloque_abajo.fila, bloque_abajo.columna)
-    print("Para abajo")
     aux2_laberinto.modificar(posicion_actual.fila, posicion_actual.columna)
     bloque_abajo = aux_laberinto.get_coordenadas(int(posicion_actual.fila)+1, posicion_actual.columna)
     bloque_arriba = aux_laberinto.get_coordenadas(int(posicion_actual.fila)-1, posicion_actual.columna)
@@ -45,7 +44,6 @@ def mov_up():
     global aux_laberinto
     aux_laberinto.visitar(posicion_actual.fila, posicion_actual.columna)
     posicion_actual = aux_laberinto.get_coordenadas(bloque_arriba.fila, bloque_arriba.columna)
-    print("Para arriba")
     aux2_laberinto.modificar(posicion_actual.fila, posicion_actual.columna)
     bloque_abajo = aux_laberinto.get_coordenadas(int(posicion_actual.fila)+1, posicion_actual.columna)
     bloque_arriba = aux_laberinto.get_coordenadas(int(posicion_actual.fila)-1, posicion_actual.columna)
@@ -64,7 +62,6 @@ def mov_right():
     global aux_laberinto
     aux_laberinto.visitar(posicion_actual.fila, posicion_actual.columna)
     posicion_actual = aux_laberinto.get_coordenadas(bloque_derecha.fila, bloque_derecha.columna)
-    print("Para derecha")
     aux2_laberinto.modificar(posicion_actual.fila, posicion_actual.columna)
     bloque_abajo = aux_laberinto.get_coordenadas(int(posicion_actual.fila)+1, posicion_actual.columna)
     bloque_arriba = aux_laberinto.get_coordenadas(int(posicion_actual.fila)-1, posicion_actual.columna)
@@ -84,7 +81,6 @@ def mov_left():
     global aux_laberinto
     aux_laberinto.visitar(posicion_actual.fila, posicion_actual.columna)
     posicion_actual = aux_laberinto.get_coordenadas(bloque_izquierda.fila, bloque_izquierda.columna)
-    print("Para izquierda")
     aux2_laberinto.modificar(posicion_actual.fila, posicion_actual.columna)
     bloque_abajo = aux_laberinto.get_coordenadas(int(posicion_actual.fila)+1, posicion_actual.columna)
     bloque_arriba = aux_laberinto.get_coordenadas(int(posicion_actual.fila)-1, posicion_actual.columna)
@@ -317,10 +313,6 @@ class ListaEnlazada_Laberintos:
                     and (bloque_izquierda is not None and bloque_izquierda.visitado)\
                     and (bloque_derecha is not None and bloque_derecha.visitado is False and bloque_derecha.esPared is False):
                         mov_right()
-                #if bloque_derecha is not None and bloque_arriba is not None \
-                      #and bloque_izquierda is not None:
-                    #if bloque_derecha.esPared and bloque_arriba.esPared and bloque_izquierda.esPared:
-                        #return aux2_laberinto
                 contador-=1
             aux3_laberinto = self.movement_continue(ListaOriginal_copia, entrada_copia, objetivos_copia)
             return aux3_laberinto

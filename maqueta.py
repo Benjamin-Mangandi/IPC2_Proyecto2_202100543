@@ -11,7 +11,6 @@ class Maqueta:
         self.items = items
         self.laberintos = ListaLaberintos
         self.entrada = entrada
-        self.estructura = None
         self.siguiente = None
 
 class ListaEnlazada_Maquetas:

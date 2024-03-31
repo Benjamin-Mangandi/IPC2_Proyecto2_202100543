@@ -3,7 +3,7 @@ from graphviz import Graph
 def crear_maqueta(maqueta_deseada):
     maqueta = Graph('G', filename='maqueta_'+maqueta_deseada.nombre+'.gv', engine='neato')
     
-    maqueta.attr(overlap='false', splines='false', bgcolor='beige')
+    maqueta.attr(overlap='false', splines='false', bgcolor='orange')
 
     maqueta.attr(label="Escuela de Sistemas\n"+'Maqueta: '+maqueta_deseada.nombre, fontsize='15', labelloc='t')
     
@@ -40,7 +40,7 @@ def crear_maqueta(maqueta_deseada):
 def crear_camino(maqueta_deseada, laberinto):
     maqueta = Graph('G', filename='maqueta_'+maqueta_deseada.nombre+'_solucion'+'.gv', engine='neato')
     
-    maqueta.attr(overlap='false', splines='false', bgcolor='beige')
+    maqueta.attr(overlap='false', splines='false', bgcolor='orange')
 
     maqueta.attr(label="Escuela de Sistemas\n"+'Maqueta: '+maqueta_deseada.nombre+"\n"+"Solución:", fontsize='15', labelloc='t')
     
