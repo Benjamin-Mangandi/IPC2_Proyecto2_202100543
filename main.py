@@ -123,7 +123,12 @@ def menu():
             console.print("\nHAROLD BENJAMIN OXLAJ MANGANDI", style="italic #00cc00 bold")
             console.print("[italic #00e600 bold]202100543")
             console.print("https://github.com/Benjamin-Mangandi/IPC2_Proyecto2_202100543.git")
-            nombre_del_archivo = '[IPC2]202100543_EnsayoProyecto2.pdf'
-            subprocess.run(['start', nombre_del_archivo], shell=True)
+            try:
+                nombre_del_archivo = '[IPC2]202100543_EnsayoProyecto2.pdf'
+                subprocess.run(['start', nombre_del_archivo], shell=True)
+            except FileNotFoundError:
+                print("El archivo no se encontró en el escritorio.")
+            except subprocess.CalledProcessError:
+                print("No se pudo abrir el archivo por alguna razón.")
 
 menu()
