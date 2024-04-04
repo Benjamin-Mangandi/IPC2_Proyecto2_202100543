@@ -28,7 +28,6 @@ def save_data(raiz):
         aux_estructuras = maqueta.find('estructura').text.strip()
         aux_estructuras = aux_estructuras.replace("\n", "")
         estructuras = aux_estructuras.replace(" ", "")
-        print(estructuras)
         nuevo_laberinto = ListaEnlazada_Laberintos()
         fila = 0
         columna = 0
