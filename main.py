@@ -25,7 +25,10 @@ def save_data(raiz):
         nombre_maqueta = maqueta.find('nombre').text.strip()
         filas = maqueta.find('filas').text.strip()
         columnas = maqueta.find('columnas').text.strip()
-        estructuras = maqueta.find('estructura').text.strip()
+        aux_estructuras = maqueta.find('estructura').text.strip()
+        aux_estructuras = aux_estructuras.replace("\n", "")
+        estructuras = aux_estructuras.replace(" ", "")
+        print(estructuras)
         nuevo_laberinto = ListaEnlazada_Laberintos()
         fila = 0
         columna = 0
